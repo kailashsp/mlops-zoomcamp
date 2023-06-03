@@ -6,11 +6,15 @@ import mlflow
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
+mlflow.set_tracking_uri("sqlite:///mydb.sqlite")
+mlflow.set_experiment("nyc-taxi-trip")
+mlflow.autolog()
+
+
 
 def load_pickle(filename: str):
     with open(filename, "rb") as f_in:
         return pickle.load(f_in)
-
 
 @click.command()
 @click.option(
@@ -19,12 +23,9 @@ def load_pickle(filename: str):
     help="Location where the processed NYC taxi trip data was saved"
 )
 
-
-
 def run_train(data_path: str):
-    mlflow.sklearn.autolog()
     with mlflow.start_run():
-        
+        mlflow.set_tag("developer", "Kailash")
         mlflow.set_tag("model", "Random_forest_regressor")
         params = {'max_depth':10, 'random_state':0}
         mlflow.log_params(params)

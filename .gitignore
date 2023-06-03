@@ -1,2 +1,6 @@
 *.parquet
 output/
+artifacts/
+mlruns/
+
+
